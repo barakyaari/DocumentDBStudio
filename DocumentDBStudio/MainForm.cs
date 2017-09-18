@@ -7,6 +7,11 @@ using Microsoft.Azure.DocumentDBStudio.Providers;
 
 namespace Microsoft.Azure.DocumentDBStudio
 {
+    using Documents;
+    using Documents.Client;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -19,11 +24,6 @@ namespace Microsoft.Azure.DocumentDBStudio
     using System.Reflection;
     using System.Threading;
     using System.Windows.Forms;
-    using Properties;
-    using Documents;
-    using Documents.Client;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     public partial class MainForm : Form
     {
@@ -48,6 +48,8 @@ namespace Microsoft.Azure.DocumentDBStudio
         private OperationType operationType;
         private ResourceType resourceType;
         private OfferType offerType;
+
+        public string FilteredDocumentId;
 
         public MainForm()
         {
@@ -1626,6 +1628,11 @@ namespace Microsoft.Azure.DocumentDBStudio
             // Bring up account settings dialog
             var dlg = new AppSettingsForm();
             DialogResult dr = dlg.ShowDialog(this);
+        }
+
+        private void documentIdTextbox_TextChanged(object sender, EventArgs e)
+        {
+            FilteredDocumentId = documentIdTextbox.Text;
         }
     }
 }

@@ -1,4 +1,12 @@
-﻿using System;
+﻿using Microsoft.Azure.DocumentDBStudio.CustomDocumentListDisplay;
+using Microsoft.Azure.DocumentDBStudio.Helpers;
+using Microsoft.Azure.DocumentDBStudio.Properties;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -8,14 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Azure.DocumentDBStudio.CustomDocumentListDisplay;
-using Microsoft.Azure.DocumentDBStudio.Helpers;
-using Microsoft.Azure.DocumentDBStudio.Properties;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.DocumentDBStudio
 {
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             AddMenuItem("Delete DocumentCollection", myMenuItemDeleteDocumentCollection_Click, Shortcut.Del);
 
             _contextMenu.MenuItems.Add("-");
-            
+
             AddMenuItem("Create Document", myMenuItemCreateDocument_Click, Shortcut.CtrlN);
             AddMenuItem("Create Document with prefilled id", myMenuItemCreateDocumentWithId_Click, Shortcut.CtrlShiftN);
             AddMenuItem("Create Document from File...", myMenuItemCreateDocumentFromFile_Click);
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             var docConverted = JsonConvert.DeserializeObject(DocumentHelper.RemoveInternalDocumentValues(JsonConvert.SerializeObject(doc)));
 
             var dlg = new CustomDocumentListDisplayConfigurationForm(_client.ServiceEndpoint.Host, _databaseId, _documentCollectionId, docConverted);
-            
+
             var dr = dlg.ShowDialog();
             if (dr == DialogResult.OK)
             {
@@ -146,7 +146,7 @@ namespace Microsoft.Azure.DocumentDBStudio
         private void InvokeDeleteDocumentCollection()
         {
             var bodytext = Tag.ToString();
-            var context = new CommandContext {IsDelete = true};
+            var context = new CommandContext { IsDelete = true };
             Program.GetMain()
                 .SetCrudContext(this, OperationType.Delete, ResourceType.DocumentCollection, bodytext,
                     DeleteDocumentCollectionAsync, context);
@@ -238,7 +238,7 @@ namespace Microsoft.Azure.DocumentDBStudio
 
         public async Task InvokeCreateDocumentsFromFolder()
         {
-            var ofd = new OpenFileDialog {Multiselect = true};
+            var ofd = new OpenFileDialog { Multiselect = true };
 
             var dr = ofd.ShowDialog();
 
@@ -345,7 +345,7 @@ namespace Microsoft.Azure.DocumentDBStudio
 
         public void InvokeQueryDocuments()
         {
-            _currentQueryCommandContext = new CommandContext {IsFeed = true};
+            _currentQueryCommandContext = new CommandContext { IsFeed = true };
 
             // reset continuation token
             _currentContinuation = null;
@@ -504,7 +504,11 @@ namespace Microsoft.Azure.DocumentDBStudio
 
                 using (PerfStatus.Start("ReadDocumentFeed"))
                 {
-                    var feedReader = CreateDocumentQuery("Select * from c", new FeedOptions {EnableCrossPartitionQuery = true});
+                    var filteredDocumentId = Program.GetMain().FilteredDocumentId;
+                    var feedReader = CreateDocumentQuery(
+                        string.IsNullOrEmpty(filteredDocumentId)
+                            ? "Select * from c"
+                            : $"Select * from c Where c.id = \"{filteredDocumentId}\"", new FeedOptions { EnableCrossPartitionQuery = true });
 
                     while (feedReader.HasMoreResults && docs.Count() < Settings.Default.DocumentTreeCount)
                     {
@@ -534,7 +538,7 @@ namespace Microsoft.Azure.DocumentDBStudio
                     else
                     {
                         var node = new ResourceNode(_client, doc, ResourceType.Document, dc.PartitionKey, dataBaseId: _databaseId, documentCollectionId: dcId);
-                        Nodes.Add(node); 
+                        Nodes.Add(node);
                     }
                 }
 
@@ -593,7 +597,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             }
 
 
-            
+
 
         }
 
@@ -602,5 +606,5 @@ namespace Microsoft.Azure.DocumentDBStudio
         }
 
 
-    }  
+    }
 }

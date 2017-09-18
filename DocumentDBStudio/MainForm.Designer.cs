@@ -151,6 +151,8 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.btnDeleteEntity = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbEditTemplate = new System.Windows.Forms.ToolStripButton();
+            this.documentIdLabel = new System.Windows.Forms.Label();
+            this.documentIdTextbox = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerOuter)).BeginInit();
             this.splitContainerOuter.Panel1.SuspendLayout();
@@ -233,6 +235,8 @@ namespace Microsoft.Azure.DocumentDBStudio
             // 
             // splitContainerOuter.Panel1
             // 
+            this.splitContainerOuter.Panel1.Controls.Add(this.documentIdTextbox);
+            this.splitContainerOuter.Panel1.Controls.Add(this.documentIdLabel);
             this.splitContainerOuter.Panel1.Controls.Add(this.treeView1);
             // 
             // splitContainerOuter.Panel2
@@ -245,11 +249,10 @@ namespace Microsoft.Azure.DocumentDBStudio
             // 
             // treeView1
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Location = new System.Drawing.Point(0, 97);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(455, 780);
+            this.treeView1.Size = new System.Drawing.Size(455, 683);
             this.treeView1.TabIndex = 0;
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
@@ -325,7 +328,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tabCrudContext.Margin = new System.Windows.Forms.Padding(4);
             this.tabCrudContext.Name = "tabCrudContext";
             this.tabCrudContext.Padding = new System.Windows.Forms.Padding(4);
-            this.tabCrudContext.Size = new System.Drawing.Size(900, 178);
+            this.tabCrudContext.Size = new System.Drawing.Size(900, 175);
             this.tabCrudContext.TabIndex = 2;
             this.tabCrudContext.Text = "Operation Editor";
             this.tabCrudContext.UseVisualStyleBackColor = true;
@@ -348,7 +351,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             // splitContainerIntabPage.Panel2
             // 
             this.splitContainerIntabPage.Panel2.Controls.Add(this.tbCrudContext);
-            this.splitContainerIntabPage.Size = new System.Drawing.Size(892, 170);
+            this.splitContainerIntabPage.Size = new System.Drawing.Size(892, 167);
             this.splitContainerIntabPage.SplitterDistance = 35;
             this.splitContainerIntabPage.SplitterWidth = 5;
             this.splitContainerIntabPage.TabIndex = 0;
@@ -379,7 +382,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tbCrudContext.Multiline = true;
             this.tbCrudContext.Name = "tbCrudContext";
             this.tbCrudContext.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbCrudContext.Size = new System.Drawing.Size(892, 130);
+            this.tbCrudContext.Size = new System.Drawing.Size(892, 127);
             this.tbCrudContext.TabIndex = 0;
             this.tbCrudContext.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tbCrudContext_PreviewKeyDown);
             // 
@@ -390,7 +393,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tabResponse.Margin = new System.Windows.Forms.Padding(4);
             this.tabResponse.Name = "tabResponse";
             this.tabResponse.Padding = new System.Windows.Forms.Padding(4);
-            this.tabResponse.Size = new System.Drawing.Size(900, 178);
+            this.tabResponse.Size = new System.Drawing.Size(900, 175);
             this.tabResponse.TabIndex = 1;
             this.tabResponse.Text = "Response Headers";
             this.tabResponse.UseVisualStyleBackColor = true;
@@ -405,7 +408,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tbResponse.Name = "tbResponse";
             this.tbResponse.ReadOnly = true;
             this.tbResponse.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbResponse.Size = new System.Drawing.Size(892, 170);
+            this.tbResponse.Size = new System.Drawing.Size(892, 167);
             this.tbResponse.TabIndex = 0;
             // 
             // tabPageRequestOptions
@@ -423,7 +426,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tabPageRequestOptions.Location = new System.Drawing.Point(4, 25);
             this.tabPageRequestOptions.Name = "tabPageRequestOptions";
             this.tabPageRequestOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRequestOptions.Size = new System.Drawing.Size(900, 178);
+            this.tabPageRequestOptions.Size = new System.Drawing.Size(900, 175);
             this.tabPageRequestOptions.TabIndex = 3;
             this.tabPageRequestOptions.Text = "RequestOptions";
             this.tabPageRequestOptions.UseVisualStyleBackColor = true;
@@ -657,7 +660,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tabDocumentCollection.Location = new System.Drawing.Point(4, 25);
             this.tabDocumentCollection.Name = "tabDocumentCollection";
             this.tabDocumentCollection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDocumentCollection.Size = new System.Drawing.Size(900, 178);
+            this.tabDocumentCollection.Size = new System.Drawing.Size(900, 175);
             this.tabDocumentCollection.TabIndex = 4;
             this.tabDocumentCollection.Text = "DocumentCollection";
             this.tabDocumentCollection.UseVisualStyleBackColor = true;
@@ -838,7 +841,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tabOffer.Location = new System.Drawing.Point(4, 25);
             this.tabOffer.Name = "tabOffer";
             this.tabOffer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOffer.Size = new System.Drawing.Size(900, 178);
+            this.tabOffer.Size = new System.Drawing.Size(900, 175);
             this.tabOffer.TabIndex = 5;
             this.tabOffer.Text = "Offer";
             this.tabOffer.UseVisualStyleBackColor = true;
@@ -1003,7 +1006,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             // 
             this.ButtomSplitContainer.Panel2.Controls.Add(this.webBrowserResponse);
             this.ButtomSplitContainer.Size = new System.Drawing.Size(908, 571);
-            this.ButtomSplitContainer.SplitterDistance = 30;
+            this.ButtomSplitContainer.SplitterDistance = 29;
             this.ButtomSplitContainer.TabIndex = 4;
             // 
             // triggerPanel
@@ -1013,7 +1016,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.triggerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.triggerPanel.Location = new System.Drawing.Point(0, 0);
             this.triggerPanel.Name = "triggerPanel";
-            this.triggerPanel.Size = new System.Drawing.Size(908, 30);
+            this.triggerPanel.Size = new System.Drawing.Size(908, 29);
             this.triggerPanel.TabIndex = 4;
             // 
             // rbPostTrigger
@@ -1058,7 +1061,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.btnExecuteNext});
             this.feedToolStrip.Location = new System.Drawing.Point(0, 0);
             this.feedToolStrip.Name = "feedToolStrip";
-            this.feedToolStrip.Size = new System.Drawing.Size(908, 30);
+            this.feedToolStrip.Size = new System.Drawing.Size(908, 29);
             this.feedToolStrip.TabIndex = 3;
             this.feedToolStrip.Text = "toolStrip1";
             this.feedToolStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.feedToolStrip_ItemClicked);
@@ -1066,61 +1069,61 @@ namespace Microsoft.Azure.DocumentDBStudio
             // MaxItemCount
             // 
             this.MaxItemCount.Name = "MaxItemCount";
-            this.MaxItemCount.Size = new System.Drawing.Size(106, 27);
+            this.MaxItemCount.Size = new System.Drawing.Size(106, 26);
             this.MaxItemCount.Text = "MaxItemCount";
             // 
             // toolStripTextMaxItemCount
             // 
             this.toolStripTextMaxItemCount.Name = "toolStripTextMaxItemCount";
-            this.toolStripTextMaxItemCount.Size = new System.Drawing.Size(40, 30);
+            this.toolStripTextMaxItemCount.Size = new System.Drawing.Size(40, 29);
             this.toolStripTextMaxItemCount.Text = "10";
             this.toolStripTextMaxItemCount.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Separator1
             // 
             this.Separator1.Name = "Separator1";
-            this.Separator1.Size = new System.Drawing.Size(6, 30);
+            this.Separator1.Size = new System.Drawing.Size(6, 29);
             // 
             // Separator2
             // 
             this.Separator2.Name = "Separator2";
-            this.Separator2.Size = new System.Drawing.Size(6, 30);
+            this.Separator2.Size = new System.Drawing.Size(6, 29);
             // 
             // MaxDOP
             // 
             this.MaxDOP.Name = "MaxDOP";
-            this.MaxDOP.Size = new System.Drawing.Size(67, 27);
+            this.MaxDOP.Size = new System.Drawing.Size(67, 26);
             this.MaxDOP.Text = "MaxDOP";
             // 
             // toolStripTextMaxDop
             // 
             this.toolStripTextMaxDop.Name = "toolStripTextMaxDop";
-            this.toolStripTextMaxDop.Size = new System.Drawing.Size(40, 30);
+            this.toolStripTextMaxDop.Size = new System.Drawing.Size(40, 29);
             this.toolStripTextMaxDop.Text = "1";
             this.toolStripTextMaxDop.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Separator3
             // 
             this.Separator3.Name = "Separator3";
-            this.Separator3.Size = new System.Drawing.Size(6, 30);
+            this.Separator3.Size = new System.Drawing.Size(6, 29);
             // 
             // MaxBuffItem
             // 
             this.MaxBuffItem.Name = "MaxBuffItem";
-            this.MaxBuffItem.Size = new System.Drawing.Size(94, 27);
+            this.MaxBuffItem.Size = new System.Drawing.Size(94, 26);
             this.MaxBuffItem.Text = "MaxBuffItem";
             // 
             // toolStripTextMaxBuffItem
             // 
             this.toolStripTextMaxBuffItem.Name = "toolStripTextMaxBuffItem";
-            this.toolStripTextMaxBuffItem.Size = new System.Drawing.Size(40, 30);
+            this.toolStripTextMaxBuffItem.Size = new System.Drawing.Size(40, 29);
             this.toolStripTextMaxBuffItem.Text = "100";
             this.toolStripTextMaxBuffItem.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Separator4
             // 
             this.Separator4.Name = "Separator4";
-            this.Separator4.Size = new System.Drawing.Size(6, 30);
+            this.Separator4.Size = new System.Drawing.Size(6, 29);
             // 
             // btnExecuteNext
             // 
@@ -1128,7 +1131,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.btnExecuteNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExecuteNext.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.btnExecuteNext.Name = "btnExecuteNext";
-            this.btnExecuteNext.Size = new System.Drawing.Size(100, 27);
+            this.btnExecuteNext.Size = new System.Drawing.Size(100, 26);
             this.btnExecuteNext.Text = "Next Page";
             this.btnExecuteNext.Click += new System.EventHandler(this.btnExecuteNext_Click);
             // 
@@ -1139,7 +1142,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.webBrowserResponse.Margin = new System.Windows.Forms.Padding(4);
             this.webBrowserResponse.MinimumSize = new System.Drawing.Size(27, 26);
             this.webBrowserResponse.Name = "webBrowserResponse";
-            this.webBrowserResponse.Size = new System.Drawing.Size(908, 537);
+            this.webBrowserResponse.Size = new System.Drawing.Size(908, 538);
             this.webBrowserResponse.TabIndex = 0;
             // 
             // tsMenu
@@ -1496,6 +1499,23 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.tsbEditTemplate.Size = new System.Drawing.Size(105, 30);
             this.tsbEditTemplate.Text = "Edit Template";
             // 
+            // documentIdLabel
+            // 
+            this.documentIdLabel.AutoSize = true;
+            this.documentIdLabel.Location = new System.Drawing.Point(11, 9);
+            this.documentIdLabel.Name = "documentIdLabel";
+            this.documentIdLabel.Size = new System.Drawing.Size(115, 22);
+            this.documentIdLabel.TabIndex = 1;
+            this.documentIdLabel.Text = "Document Id:";
+            // 
+            // documentIdTextbox
+            // 
+            this.documentIdTextbox.Location = new System.Drawing.Point(15, 39);
+            this.documentIdTextbox.Name = "documentIdTextbox";
+            this.documentIdTextbox.Size = new System.Drawing.Size(339, 27);
+            this.documentIdTextbox.TabIndex = 2;
+            this.documentIdTextbox.TextChanged += new System.EventHandler(this.documentIdTextbox_TextChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -1517,6 +1537,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.splitContainerOuter.Panel1.ResumeLayout(false);
+            this.splitContainerOuter.Panel1.PerformLayout();
             this.splitContainerOuter.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerOuter)).EndInit();
             this.splitContainerOuter.ResumeLayout(false);
@@ -1699,6 +1720,8 @@ namespace Microsoft.Azure.DocumentDBStudio
         private System.Windows.Forms.ToolStripButton tsbHideDocumentSystemProperties;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.TextBox documentIdTextbox;
+        private System.Windows.Forms.Label documentIdLabel;
     }
 }
 

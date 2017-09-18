@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Drawing;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.Azure.DocumentDBStudio.CustomDocumentListDisplay;
+﻿using Microsoft.Azure.DocumentDBStudio.CustomDocumentListDisplay;
 using Microsoft.Azure.DocumentDBStudio.Helpers;
 using Microsoft.Azure.DocumentDBStudio.Providers;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Microsoft.Azure.DocumentDBStudio
 {
@@ -25,10 +25,10 @@ namespace Microsoft.Azure.DocumentDBStudio
         private readonly CustomDocumentListDisplayManager _customDocumentListDisplayManager = new CustomDocumentListDisplayManager();
 
         public ResourceNode(
-            DocumentClient client, 
-            dynamic document, 
-            ResourceType resoureType, 
-            PartitionKeyDefinition partitionKey = null, 
+            DocumentClient client,
+            dynamic document,
+            ResourceType resoureType,
+            PartitionKeyDefinition partitionKey = null,
             string nodeText = null,
             string dataBaseId = null,
             string documentCollectionId = null
@@ -60,8 +60,8 @@ namespace Microsoft.Azure.DocumentDBStudio
                         prefix = prefix + "_";
                     }
                 }
-                Text = string.IsNullOrWhiteSpace(nodeText) 
-                    ? prefix + docAsResource.Id 
+                Text = string.IsNullOrWhiteSpace(nodeText)
+                    ? prefix + docAsResource.Id
                     : prefix + nodeText;
             }
             else if (isOffer)
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.DocumentDBStudio
 
                     var createWithnewIdItem = AddMenuItem(
                         string.Format("Create {0} with new id based on this", _resourceType), (sender, e) => InvokeCreateNewDocumentBasedOnSelectedWithNewId()
-                    ); 
+                    );
                     MenuItemHelper.SetCustomShortcut(createWithnewIdItem, Keys.Control | Keys.Alt | Keys.N);
 
                     AddMenuItem(string.Format("Create {0}", _resourceType), myMenuItemCreateNewDocument_Click, Shortcut.CtrlN);
@@ -175,7 +175,7 @@ namespace Microsoft.Azure.DocumentDBStudio
                 SelectedImageKey = "Offer";
             }
 
-            
+
         }
 
         private void myMenuItemCreateDocumentsFromFolder_Click(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace Microsoft.Azure.DocumentDBStudio
 
         private void myMenuItemCreateNewDocument_Click(object sender, EventArgs e)
         {
-            ((DocumentCollectionNode) Parent).InvokeCreateDocument();
+            ((DocumentCollectionNode)Parent).InvokeCreateDocument();
         }
 
         private void myMenuItemCreateNewDocumentWithId_Click(object sender, EventArgs e)
@@ -325,141 +325,141 @@ namespace Microsoft.Azure.DocumentDBStudio
                 switch (_resourceType)
                 {
                     case ResourceType.Offer:
-                    {
-                        ResourceResponse<Offer> rr;
-                        using (PerfStatus.Start("ReadOffer"))
                         {
-                            rr = await _client.ReadOfferAsync(((Resource)Tag).SelfLink);
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<Offer> rr;
+                            using (PerfStatus.Start("ReadOffer"))
+                            {
+                                rr = await _client.ReadOfferAsync(((Resource)Tag).SelfLink);
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.Document:
-                    {
-                        var document = (Document)Tag;
-                        var collection = (DocumentCollection)Parent.Tag;
-
-                        var requestOptions = GetRequestOptions();
-                        if (collection.PartitionKey != null && collection.PartitionKey.Paths.Count > 0)
                         {
-                            requestOptions.PartitionKey = new PartitionKey(DocumentAnalyzer.ExtractPartitionKeyValue(document, collection.PartitionKey));
-                        }
+                            var document = (Document)Tag;
+                            var collection = (DocumentCollection)Parent.Tag;
 
-                        ResourceResponse<Document> rr;
-                        using (PerfStatus.Start("ReadDocument"))
-                        {
-                            rr = await _client.ReadDocumentAsync(document.GetLink(_client), requestOptions);
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
-                        json = DocumentHelper.RemoveInternalDocumentValues(json);
+                            var requestOptions = GetRequestOptions();
+                            if (collection.PartitionKey != null && collection.PartitionKey.Paths.Count > 0)
+                            {
+                                requestOptions.PartitionKey = new PartitionKey(DocumentAnalyzer.ExtractPartitionKeyValue(document, collection.PartitionKey));
+                            }
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            ResourceResponse<Document> rr;
+                            using (PerfStatus.Start("ReadDocument"))
+                            {
+                                rr = await _client.ReadDocumentAsync(document.GetLink(_client), requestOptions);
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            json = DocumentHelper.RemoveInternalDocumentValues(json);
+
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.Conflict:
-                    {
-                        ResourceResponse<Conflict> rr;
-                        using (PerfStatus.Start("ReadConflict"))
                         {
-                            rr = await _client.ReadConflictAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<Conflict> rr;
+                            using (PerfStatus.Start("ReadConflict"))
+                            {
+                                rr = await _client.ReadConflictAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.Attachment:
-                    {
-                        ResourceResponse<Attachment> rr;
-                        var document = ((Document)Tag);
-                        var collection = ((DocumentCollection)Parent.Tag);
-
-                        var requestOptions = GetRequestOptions();
-                        if (collection.PartitionKey != null && collection.PartitionKey.Paths.Count > 0)
                         {
-                            requestOptions.PartitionKey = new PartitionKey(DocumentAnalyzer.ExtractPartitionKeyValue(document, collection.PartitionKey));
+                            ResourceResponse<Attachment> rr;
+                            var document = ((Document)Tag);
+                            var collection = ((DocumentCollection)Parent.Tag);
+
+                            var requestOptions = GetRequestOptions();
+                            if (collection.PartitionKey != null && collection.PartitionKey.Paths.Count > 0)
+                            {
+                                requestOptions.PartitionKey = new PartitionKey(DocumentAnalyzer.ExtractPartitionKeyValue(document, collection.PartitionKey));
+                            }
+
+                            using (PerfStatus.Start("ReadAttachment"))
+                            {
+                                rr = await _client.ReadAttachmentAsync(document.GetLink(_client), requestOptions);
+                            }
+
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
                         }
-
-                        using (PerfStatus.Start("ReadAttachment"))
-                        {
-                            rr = await _client.ReadAttachmentAsync(document.GetLink(_client), requestOptions);
-                        }
-
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
-
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
                         break;
                     case ResourceType.User:
-                    {
-                        ResourceResponse<User> rr;
-                        using (PerfStatus.Start("ReadUser"))
                         {
-                            rr = await _client.ReadUserAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<User> rr;
+                            using (PerfStatus.Start("ReadUser"))
+                            {
+                                rr = await _client.ReadUserAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.Permission:
-                    {
-                        ResourceResponse<Permission> rr;
-                        using (PerfStatus.Start("ReadPermission"))
                         {
-                            rr = await _client.ReadPermissionAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<Permission> rr;
+                            using (PerfStatus.Start("ReadPermission"))
+                            {
+                                rr = await _client.ReadPermissionAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.StoredProcedure:
-                    {
-                        ResourceResponse<StoredProcedure> rr;
-                        using (PerfStatus.Start("ReadStoredProcedure"))
                         {
-                            rr = await _client.ReadStoredProcedureAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<StoredProcedure> rr;
+                            using (PerfStatus.Start("ReadStoredProcedure"))
+                            {
+                                rr = await _client.ReadStoredProcedureAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.Trigger:
-                    {
-                        ResourceResponse<Trigger> rr;
-                        using (PerfStatus.Start("ReadTrigger"))
                         {
-                            rr = await _client.ReadTriggerAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<Trigger> rr;
+                            using (PerfStatus.Start("ReadTrigger"))
+                            {
+                                rr = await _client.ReadTriggerAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     case ResourceType.UserDefinedFunction:
-                    {
-                        ResourceResponse<UserDefinedFunction> rr;
-                        using (PerfStatus.Start("ReadUDF"))
                         {
-                            rr = await _client.ReadUserDefinedFunctionAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
-                        }
-                        // set the result window
-                        var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
+                            ResourceResponse<UserDefinedFunction> rr;
+                            using (PerfStatus.Start("ReadUDF"))
+                            {
+                                rr = await _client.ReadUserDefinedFunctionAsync(((Resource)Tag).GetLink(_client), GetRequestOptions());
+                            }
+                            // set the result window
+                            var json = JsonConvert.SerializeObject(rr.Resource, Formatting.Indented);
 
-                        SetResultInBrowser(json, null, false, rr.ResponseHeaders);
-                    }
+                            SetResultInBrowser(json, null, false, rr.ResponseHeaders);
+                        }
                         break;
                     default:
                         throw new ArgumentException("Unsupported resource type " + _resourceType);
@@ -534,7 +534,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             }
         }
 
-  
+
         async void myMenuItemDownloadMedia_Click(object sender, EventArgs eventArg)
         {
             var attachment = Tag as Attachment;
@@ -545,7 +545,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             if (index > 0)
                 fileName = fileName.Substring(index + 1);
 
-            var ofd = new SaveFileDialog {FileName = fileName};
+            var ofd = new SaveFileDialog { FileName = fileName };
             var dr = ofd.ShowDialog();
 
             if (dr == DialogResult.OK)
@@ -644,7 +644,7 @@ namespace Microsoft.Azure.DocumentDBStudio
         private void InvokeDeleteResource()
         {
             var bodytext = Tag.ToString();
-            var context = new CommandContext {IsDelete = true};
+            var context = new CommandContext { IsDelete = true };
             SetCrudContext(this, OperationType.Delete, _resourceType, bodytext, DeleteResourceAsync, context);
         }
 
@@ -737,13 +737,14 @@ namespace Microsoft.Azure.DocumentDBStudio
                 {
                     var text = resource as string;
                     var doc = (Document)JsonConvert.DeserializeObject(text, typeof(Document));
+                    var jsonDocument = JObject.Parse(text);
                     var tagAsDoc = (Tag as Document);
                     doc.SetReflectedPropertyValue("AltLink", tagAsDoc.GetAltLink());
                     ResourceResponse<Document> rr;
                     var hostName = _client.ServiceEndpoint.Host;
                     using (PerfStatus.Start("ReplaceDocument"))
                     {
-                        rr = await _client.ReplaceDocumentAsync(doc.GetLink(_client), doc, requestOptions);
+                        rr = await _client.ReplaceDocumentAsync(doc.GetLink(_client), jsonDocument, requestOptions);
                     }
                     json = rr.Resource.ToString();
 
@@ -1139,7 +1140,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             {
                 if (Parent is FeedNode)
                 {
-                    ((FeedNode) Parent).Refresh(true);
+                    ((FeedNode)Parent).Refresh(true);
                 }
             }
 
